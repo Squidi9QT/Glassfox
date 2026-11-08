@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div class="segmented" id="tabs-switch" data-index="0" role="tablist">
+      <span class="thumb"></span>
+      <button role="tab" aria-selected="true" data-view="tabs">Вкладки <span id="tab-count"></span></button>
+      <button role="tab" aria-selected="false" data-view="sites">Сайты</button>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+      <input id="query" type="search" placeholder="Поиск" autocomplete="off" autofocus>
+    </label>
+  </header>
+
+  <main>
+    <section id="view-tabs" class="view">
+      <ul id="tab-list" class="list"></ul>
+    </section>
+
+    <section id="view-sites" class="view" hidden>
+      <div id="site-grid" class="grid"></div>
+      <button id="add-site" class="add-site">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+        Добавить текущую вкладку
+      </button>
+    </section>
+  </main>
+
+  <footer id="mini-player" class="mini">
+    <button class="play" id="mini-play" title="Играть / пауза">
+      <svg class="i-play" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.2v9.6c0 .6.6.9 1.1.6l7.4-4.8a.7.7 0 0 0 0-1.2L6.1 2.6C5.6 2.3 5 2.6 5 3.2Z"/></svg>
+      <svg class="i-pause" viewBox="0 0 16 16" fill="currentColor"><rect x="3.5" y="2.5" width="3" height="11" rx="1"/><rect x="9.5" y="2.5" width="3" height="11" rx="1"/></svg>
+    </button>
+    <div class="mini-text">
+      <div id="mini-name" class="mini-name">Музыка</div>
+      <div id="mini-status" class="mini-status">Не играет</div>
+    </div>
+    <span class="bars"><i></i><i></i><i></i><i></i></span>
+    <button id="open-sidebar" class="ghost" title="Открыть плеер сбоку">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="2.5" width="13" height="11" rx="2.5"/><path d="M10 2.5v11"/></svg>
+    </button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "Glassfox",
+  "version": "1.0.0",
+  "description": "Все вкладки и любимые сайты по одному клику и спокойная музыка в боковой панели.",
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
+  },
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "scripts": ["stations.js", "background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Glassfox — вкладки и сайты",
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon.svg"
+  },
+  "sidebar_action": {
+    "default_title": "Glassfox — музыка",
+    "default_panel": "sidebar.html",
+    "default_icon": "icons/music.svg",
+    "open_at_install": false
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "glassfox@local",
+      "strict_min_version": "115.0"
+    }
+  }
+}

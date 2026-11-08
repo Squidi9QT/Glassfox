@@ -1,0 +1,5 @@
+.DS_Store
+web-ext-artifacts/
+extension/web-ext-artifacts/
+extension/.amo-upload-uuid
+glassfox.zip

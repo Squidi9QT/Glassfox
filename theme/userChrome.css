@@ -1,0 +1,157 @@
+/* Glassfox — вкладки сбоку и группы в стиле Apple.
+ * Файл кладётся в <профиль Firefox>/chrome/userChrome.css.
+ * Нужна настройка toolkit.legacyUserProfileCustomizations.stylesheets = true.
+ */
+
+:root {
+  --gf-radius: 9px;
+  --gf-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --gf-duration: 220ms;
+  --gf-hover: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.07));
+  --gf-selected: light-dark(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.13));
+  --gf-selected-shadow:
+    0 1px 2px light-dark(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.35)),
+    0 2px 8px light-dark(rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.2));
+  --gf-separator: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.08));
+}
+
+/* ---------- Боковая панель ---------- */
+
+#sidebar-main {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif !important;
+}
+
+/* ---------- Вкладки сбоку ---------- */
+
+#tabbrowser-tabs[orient="vertical"] {
+  --tab-border-radius: var(--gf-radius) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab {
+  font-size: 12.5px !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab > .tab-stack > .tab-background {
+  border-radius: var(--gf-radius) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition:
+    background-color var(--gf-duration) var(--gf-ease),
+    box-shadow var(--gf-duration) var(--gf-ease),
+    transform var(--gf-duration) var(--gf-ease) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:not([selected], [multiselected]):hover > .tab-stack > .tab-background {
+  background-color: var(--gf-hover) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:is([selected], [multiselected]) > .tab-stack > .tab-background {
+  background-color: var(--gf-selected) !important;
+  box-shadow: var(--gf-selected-shadow) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:active > .tab-stack > .tab-background {
+  transform: scale(0.98);
+}
+
+/* Название активной вкладки чуть плотнее, как в Safari */
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[selected] .tab-label {
+  font-weight: 500 !important;
+}
+
+/* Неактивные вкладки слегка приглушены */
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:not([selected]) .tab-label {
+  opacity: 0.82;
+  transition: opacity var(--gf-duration) var(--gf-ease);
+}
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:not([selected]):hover .tab-label {
+  opacity: 1;
+}
+
+/* Крестик появляется только при наведении */
+#tabbrowser-tabs[orient="vertical"][expanded] .tabbrowser-tab:not([selected]):not(:hover) .tab-close-button {
+  opacity: 0 !important;
+}
+#tabbrowser-tabs[orient="vertical"] .tab-close-button {
+  border-radius: 6px !important;
+  transition: opacity var(--gf-duration) var(--gf-ease), background-color 150ms !important;
+}
+
+/* Плавное появление новой вкладки */
+@media (prefers-reduced-motion: no-preference) {
+  #tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[fadein]:not([pinned]) {
+    animation: gf-tab-in 260ms var(--gf-ease);
+  }
+}
+@keyframes gf-tab-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Закреплённые вкладки — аккуратные плитки */
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[pinned] > .tab-stack > .tab-background {
+  border-radius: 10px !important;
+}
+
+/* ---------- Группы вкладок: вместо кружков — капсулы ---------- */
+
+.tab-group-label {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em;
+  color: var(--tab-group-color) !important;
+  background-color: color-mix(in srgb, var(--tab-group-color) 16%, transparent) !important;
+  border-radius: 7px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition:
+    background-color var(--gf-duration) var(--gf-ease),
+    color var(--gf-duration) var(--gf-ease) !important;
+}
+
+.tab-group-label:hover {
+  background-color: color-mix(in srgb, var(--tab-group-color) 26%, transparent) !important;
+}
+
+/* Свёрнутая группа: та же капсула, но насыщеннее, чтобы было видно, что внутри что-то есть */
+tab-group[collapsed] > .tab-group-label-container .tab-group-label {
+  color: light-dark(white, rgba(0, 0, 0, 0.85)) !important;
+  background-color: var(--tab-group-color) !important;
+  outline: none !important;
+}
+
+/* Подсветка при наведении — тоже без круга */
+.tab-group-label-hover-highlight {
+  border-radius: 9px !important;
+  box-shadow: none !important;
+}
+
+/* В развёрнутой боковой панели метка — во всю ширину, текст слева */
+#tabbrowser-tabs[orient="vertical"][expanded] .tab-group-label {
+  text-align: start !important;
+  padding-inline: 10px !important;
+}
+
+/* В свёрнутой боковой панели — скруглённый квадратик с первой буквой */
+#tabbrowser-tabs[orient="vertical"]:not([expanded]) .tab-group-label {
+  border-radius: 8px !important;
+}
+
+/* Линия группы — тоньше и мягче */
+.tab-group-line {
+  border-radius: 2px !important;
+  opacity: 0.7;
+}
+#tabbrowser-tabs[orient="vertical"] {
+  --tab-group-line-thickness: 2px !important;
+}
+
+/* Счётчик свёрнутых вкладок — капсула, не круг */
+.tab-group-overflow-count {
+  border-radius: 7px !important;
+  font-weight: 600 !important;
+  color: var(--tab-group-color) !important;
+  background-color: color-mix(in srgb, var(--tab-group-color) 14%, transparent) !important;
+}
